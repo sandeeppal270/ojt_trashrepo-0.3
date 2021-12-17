@@ -13,7 +13,7 @@ class JobController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('employer',['except'=>array('index','show','apply')]);
+        $this->middleware('employer',['except'=>array('index','show','apply','allJobs')]);
     }
 
    public function index(){
@@ -73,14 +73,18 @@ class JobController extends Controller
 
     ]);
     return redirect()->back()->with('message','Job posted successfully!');
-}
-public function apply(Request $request,$id){
+    }
+    public function apply(Request $request,$id){
         $jobId = Job::find($id);
         $jobId->users()->attach(Auth::user()->id);
         return redirect()->back()->with('message','Application sent!');
 
 
-}
+    }
+    public function allJobs(){
+        return view('jobs.alljobs');
+    }
+
 
 
 }
